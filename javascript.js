@@ -2,16 +2,31 @@
 const gridContainer = document.querySelector('#grid-container');
 const gridSizeButton = document.querySelector('#grid-size-button');
 const eraseButton = document.querySelector('#erase-button');
+const randomColorButton = document.querySelector('#random-color');
 const defaultColor = document.querySelector('#blue');
 defaultColor.classList.add('selected');
+
+let randomColor = "false";
 let currentColor = "blue";
 let rows;
 generateGrid(16);
 rows = document.querySelectorAll('.row');
 colors = document.querySelectorAll('.color-picker');
+const colorsList = [];
+colors.forEach(colorIteration => {
+    if(colorIteration.id !== "random-color") {
+        const colorToAdd = getComputedStyle(colorIteration);
+        colorsList.push(colorToAdd.backgroundColor);
+    }
+});
 
 function setColor(divContent, colorToSet) {
-    divContent.style.backgroundColor = colorToSet;
+    if(randomColor) {
+        const randomColorIndex = Math.floor(Math.random(colorsList.length) * colorsList.length);
+        divContent.style.backgroundColor = colorsList[randomColorIndex];
+    } else {
+        divContent.style.backgroundColor = colorToSet;
+    } 
 }
 
 function generateGrid(gridsize) {
@@ -70,12 +85,15 @@ eraseButton.addEventListener('click', () => {
 
 colors.forEach(selectedColor => selectedColor.addEventListener('click', () => {
     const colorStyle = getComputedStyle(selectedColor);
-    currentColor = colorStyle.backgroundColor;
+    if(selectedColor.id == "random-color") {
+        randomColor = true;
+    } else {
+        currentColor = colorStyle.backgroundColor;
+        randomColor = false;
+    }
     resetSelectedColor();
     selectedColor.classList.add('selected');
 }));
-
-
 
 
 
