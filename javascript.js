@@ -2,11 +2,10 @@
 const gridContainer = document.querySelector('#grid-container');
 const gridSizeButton = document.querySelector('#grid-size-button');
 const eraseButton = document.querySelector('#erase-button');
-const randomColorButton = document.querySelector('#random-color');
 const defaultColor = document.querySelector('#blue');
 defaultColor.classList.add('selected');
 
-let randomColor = "false";
+let displayRandomColor = false;
 let currentColor = "blue";
 let rows;
 generateGrid(16);
@@ -21,7 +20,7 @@ colors.forEach(colorIteration => {
 });
 
 function setColor(divContent, colorToSet) {
-    if(randomColor) {
+    if(displayRandomColor) {
         const randomColorIndex = Math.floor(Math.random(colorsList.length) * colorsList.length);
         divContent.style.backgroundColor = colorsList[randomColorIndex];
     } else {
@@ -86,10 +85,10 @@ eraseButton.addEventListener('click', () => {
 colors.forEach(selectedColor => selectedColor.addEventListener('click', () => {
     const colorStyle = getComputedStyle(selectedColor);
     if(selectedColor.id == "random-color") {
-        randomColor = true;
+        displayRandomColor = true;
     } else {
         currentColor = colorStyle.backgroundColor;
-        randomColor = false;
+        displayRandomColor = false;
     }
     resetSelectedColor();
     selectedColor.classList.add('selected');
