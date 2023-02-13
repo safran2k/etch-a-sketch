@@ -63,7 +63,8 @@ body{
 button:hover{
     transform: scale(1.15);
 }
-.color-picker:hover{
+
+.color-picker:hover, .selected{
     transform: scale(1.3);
 }
 

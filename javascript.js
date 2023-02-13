@@ -2,14 +2,16 @@
 const gridContainer = document.querySelector('#grid-container');
 const gridSizeButton = document.querySelector('#grid-size-button');
 const eraseButton = document.querySelector('#erase-button');
+const defaultColor = document.querySelector('#blue');
+defaultColor.classList.add('selected');
 let currentColor = "blue";
 let rows;
 generateGrid(16);
 rows = document.querySelectorAll('.row');
 colors = document.querySelectorAll('.color-picker');
 
-function setColor(divContent) {
-    divContent.style.backgroundColor = currentColor;
+function setColor(divContent, colorToSet) {
+    divContent.style.backgroundColor = colorToSet;
 }
 
 function generateGrid(gridsize) {
@@ -24,12 +26,10 @@ function generateGrid(gridsize) {
             row.style.height = pixelsize + "px";
             // took me a while to figure out i had to do this
             pixel.addEventListener('mouseenter', () =>{
-                setColor(pixel);
+                setColor(pixel, currentColor);
             });
     
     
-            // pixel.style.height = pixelsize + "px";
-            // pixel.style.width = pixelsize + "px";
             row.appendChild(pixel);
     
         }
@@ -41,6 +41,12 @@ function generateGrid(gridsize) {
 function deleteGrid(gridRows) {
     gridRows.forEach(currentRow => {
         gridContainer.removeChild(currentRow);
+    });
+}
+
+function resetSelectedColor() {
+    colors.forEach(currentlySelectedColor => {
+        currentlySelectedColor.classList.remove('selected');
     });
 }
 
@@ -65,7 +71,8 @@ eraseButton.addEventListener('click', () => {
 colors.forEach(selectedColor => selectedColor.addEventListener('click', () => {
     const colorStyle = getComputedStyle(selectedColor);
     currentColor = colorStyle.backgroundColor;
-    // console.log(selectedColor.id);
+    resetSelectedColor();
+    selectedColor.classList.add('selected');
 }));
 
 
